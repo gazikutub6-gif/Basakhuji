@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stellenwerk – Jobs in Germany</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#fff;--bg2:#f2f6fd;--ink:#0d1b3a;--mut:#51607f;--line:#d9e2f3;--blue:#1646c8;--blue2:#0c2f8f;--on:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1428;--bg2:#101c38;--ink:#eaf0ff;--mut:#9fb0d3;--line:#223259;--blue:#5b8cff;--blue2:#8fb0ff;--on:#07122a}}
+:root[data-theme="dark"]{--bg:#0b1428;--bg2:#101c38;--ink:#eaf0ff;--mut:#9fb0d3;--line:#223259;--blue:#5b8cff;--blue2:#8fb0ff;--on:#07122a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--blue)}
+.w{max-width:1040px;margin:0 auto;padding:0 20px}
+header{border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+.bar{display:flex;align-items:center;gap:16px;min-height:60px;flex-wrap:wrap}
+.logo{font-weight:700;font-size:20px;color:var(--ink);text-decoration:none;margin-right:auto}
+.logo b{color:var(--blue)}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{padding:6px 10px;border-radius:6px;color:var(--ink);text-decoration:none;font-weight:500;font-size:15px}
+nav a:hover,nav a.on{background:var(--bg2);color:var(--blue)}
+.lang{border:1px solid var(--line);background:none;color:var(--ink);border-radius:6px;padding:5px 10px;font:inherit;font-size:14px;cursor:pointer}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.hero{background:var(--blue2);color:#fff;padding:56px 0 48px}
+.hero h1{font-size:clamp(30px,6vw,52px);line-height:1.1;margin:0 0 12px;max-width:16em;letter-spacing:-.02em}
+.hero p{margin:0 0 24px;max-width:36em;color:#cfdcff;font-size:18px}
+.search{display:flex;gap:8px;background:#fff;padding:8px;border-radius:10px;max-width:640px;flex-wrap:wrap}
+.search input{flex:1;min-width:150px;border:0;font:inherit;padding:10px;color:#0d1b3a;background:#fff;border-radius:6px}
+.btn{background:var(--blue);color:var(--on);border:0;border-radius:8px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.o{background:none;color:var(--blue);border:1px solid var(--blue)}
+.hero .btn{background:#1646c8;color:#fff}
+section{padding:40px 0}
+h2{font-size:26px;margin:0 0 16px;letter-spacing:-.01em}
+.job{display:flex;gap:16px;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:12px;text-decoration:none;color:var(--ink);background:var(--bg)}
+.job:hover{border-color:var(--blue)}
+.job h3{margin:0;font-size:18px;color:var(--blue)}
+.job small{color:var(--mut);font-size:14px}
+.tag{display:inline-block;background:var(--bg2);color:var(--blue2);border-radius:999px;padding:2px 10px;font-size:13px;font-weight:500;margin:4px 6px 0 0}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:20px}
+select,input,textarea{font:inherit;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%}
+.band{background:var(--bg2)}
+.alert{display:flex;gap:8px;flex-wrap:wrap;max-width:520px}
+.alert input{flex:1;min-width:180px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+@media(max-width:700px){.two{grid-template-columns:1fr}nav a{padding:6px 8px}}
+.pre{white-space:pre-line}
+.note{background:var(--bg2);border-left:4px solid var(--blue);padding:10px 14px;border-radius:6px;color:var(--mut);font-size:14px}
+footer{border-top:1px solid var(--line);padding:24px 0;color:var(--mut);font-size:14px}
+footer a{color:var(--mut);margin-right:14px}
+.share a{margin-right:8px}
+label{display:block;font-weight:500;margin:12px 0 4px}
+@media (prefers-reduced-motion:no-preference){.hero h1{animation:in .5s ease-out}@keyframes in{from{opacity:0;transform:translateY(8px)}}}
+</style>
+</head>
+<body>
+<header><div class="w bar">
+<a class="logo" href="#/">Stellen<b>werk</b></a>
+<nav id="nav"></nav>
+<button class="lang" id="lang" aria-label="Language"></button>
+</div></header>
+<main id="app" class="w" style="padding:0;max-width:none"></main>
+<footer><div class="w" id="foot"></div></footer>
+<script>
+var T={
+en:{home:"Home",jobs:"Jobs",about:"About us",contact:"Contact",imp:"Legal notice",dp:"Privacy policy",
+h1:"Find your next job in Germany",intro:"We collect vacancies from across the country and list them in one place, free for job seekers.",
+q:"Job title or keyword",go:"Search jobs",latest:"Latest jobs",all:"See all jobs",city:"City",field:"Field",type:"Job type",any:"All",
+res:"jobs found",none:"No jobs match these filters. Try removing one or searching a wider area.",back:"All jobs",apply:"Apply on company site",
+share:"Share",desc:"Description",posted:"Posted",alertT:"Get new jobs by email",alertP:"Your email address",alertB:"Subscribe",alertOk:"Thanks! This demo form does not send data yet.",
+aboutH:"About us",aboutP:"Stellenwerk is a small team of recruiters and developers based in Germany. We believe finding a job should not mean checking dozens of websites.",
+missionH:"Our mission",missionP:"We bring vacancies from companies of every size into one clear, searchable list. Every listing links directly to the employer, so you apply at the source and never pay us anything.",
+cH:"Contact",cName:"Name",cMail:"Email",cMsg:"Message",cSend:"Send message",cOk:"Thank you. This demo form does not send data yet.",cP:"Questions, feedback or a job to list? Write to us.",
+sample:"Sample content: replace with your own data and legal details before launch.",
+impH:"Legal notice (Impressum)",impB:"Information according to § 5 DDG\n\nStellenwerk [Company name and legal form]\n[Street and number]\n[Postcode City], Germany\n\nRepresented by: [Name of managing director]\nEmail: [email address]\nPhone: [phone number]\nCommercial register: [Court and number]\nVAT ID: [DE...]\n\nResponsible for content (§ 18 MStV): [Name, address]",
+dpH:"Privacy policy (Datenschutzerklärung)",dpB:"1. Controller\n[Company name, address, email]\n\n2. Data we process\nServer log data when you visit the site, and data you enter in the contact form or the job alert form.\n\n3. Purpose and legal basis\nOperating the website (Art. 6(1)(f) GDPR) and answering your requests (Art. 6(1)(b) GDPR). Job alerts only with your consent (Art. 6(1)(a) GDPR).\n\n4. Your rights\nAccess, correction, deletion, restriction, objection and data portability. You may complain to your data protection authority.\n\n5. Hosting and third parties\n[Add your hosting provider and any tools you use.]",
+ft:"© 2026 Stellenwerk. Jobs in Germany."},
+de:{home:"Start",jobs:"Jobs",about:"Über uns",contact:"Kontakt",imp:"Impressum",dp:"Datenschutz",
+h1:"Finden Sie Ihren nächsten Job in Deutschland",intro:"Wir sammeln Stellenangebote aus ganz Deutschland und zeigen sie an einem Ort, kostenlos für Bewerber.",
+q:"Berufsbezeichnung oder Stichwort",go:"Jobs suchen",latest:"Neueste Jobs",all:"Alle Jobs ansehen",city:"Stadt",field:"Branche",type:"Anstellungsart",any:"Alle",
+res:"Jobs gefunden",none:"Keine Jobs für diese Filter. Entfernen Sie einen Filter oder suchen Sie in einem größeren Gebiet.",back:"Alle Jobs",apply:"Auf der Firmenseite bewerben",
+share:"Teilen",desc:"Beschreibung",posted:"Veröffentlicht",alertT:"Neue Jobs per E-Mail erhalten",alertP:"Ihre E-Mail-Adresse",alertB:"Abonnieren",alertOk:"Danke! Dieses Demo-Formular versendet noch keine Daten.",
+aboutH:"Über uns",aboutP:"Stellenwerk ist ein kleines Team aus Recruitern und Entwicklern in Deutschland. Wir finden: Jobsuche sollte nicht bedeuten, dutzende Webseiten zu prüfen.",
+missionH:"Unsere Mission",missionP:"Wir bündeln Stellenangebote von Unternehmen jeder Größe in einer übersichtlichen, durchsuchbaren Liste. Jede Anzeige führt direkt zum Arbeitgeber, Sie bewerben sich an der Quelle und zahlen uns nichts.",
+cH:"Kontakt",cName:"Name",cMail:"E-Mail",cMsg:"Nachricht",cSend:"Nachricht senden",cOk:"Vielen Dank. Dieses Demo-Formular versendet noch keine Daten.",cP:"Fragen, Feedback oder eine Stelle zu melden? Schreiben Sie uns.",
+sample:"Beispielinhalt: Vor dem Start durch eigene Daten und rechtliche Angaben ersetzen.",
+impH:"Impressum",impB:"Angaben gemäß § 5 DDG\n\nStellenwerk [Firmenname und Rechtsform]\n[Straße und Hausnummer]\n[PLZ Ort], Deutschland\n\nVertreten durch: [Name der Geschäftsführung]\nE-Mail: [E-Mail-Adresse]\nTelefon: [Telefonnummer]\nHandelsregister: [Gericht und Nummer]\nUSt-IdNr.: [DE...]\n\nVerantwortlich für den Inhalt (§ 18 MStV): [Name, Anschrift]",
+dpH:"Datenschutzerklärung",dpB:"1. Verantwortlicher\n[Firmenname, Anschrift, E-Mail]\n\n2. Verarbeitete Daten\nServer-Logdaten beim Besuch der Seite sowie Daten, die Sie im Kontaktformular oder im Job-Alarm eingeben.\n\n3. Zweck und Rechtsgrundlage\nBetrieb der Webseite (Art. 6 Abs. 1 lit. f DSGVO) und Beantwortung Ihrer Anfragen (Art. 6 Abs. 1 lit. b DSGVO). Job-Alarm nur mit Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO).\n\n4. Ihre Rechte\nAuskunft, Berichtigung, Löschung, Einschränkung, Widerspruch und Datenübertragbarkeit. Sie können sich bei einer Datenschutzaufsichtsbehörde beschweren.\n\n5. Hosting und Dritte\n[Hosting-Anbieter und eingesetzte Tools ergänzen.]",
+ft:"© 2026 Stellenwerk. Jobs in Deutschland."}};
+var FIELDS={it:["IT & Software","IT & Software"],health:["Healthcare","Gesundheit & Pflege"],eng:["Engineering","Ingenieurwesen"],sales:["Sales & Marketing","Vertrieb & Marketing"],log:["Logistics","Logistik"]};
+var TYPES={ft:["Full-time","Vollzeit"],pt:["Part-time","Teilzeit"],int:["Internship","Praktikum"],free:["Freelance","Freiberuflich"]};
+var J=[
+[1,"Frontend Developer (m/w/d)","Nordlicht Software GmbH","Hamburg","it","ft","2026-09-30","Build and maintain customer-facing web apps with a small product team. Experience with TypeScript and React expected. Hybrid work possible.","Entwicklung und Pflege kundennaher Web-Apps in einem kleinen Produktteam. Erfahrung mit TypeScript und React erwünscht. Hybrides Arbeiten möglich."],
+[2,"Pflegefachkraft (m/w/d)","Klinikum Spree","Berlin","health","ft","2026-09-29","Care for patients on a surgical ward in a supportive team with shift planning that respects your schedule.","Betreuung von Patienten auf einer chirurgischen Station in einem unterstützenden Team mit verlässlicher Dienstplanung."],
+[3,"Maschinenbauingenieur (m/w/d)","Isar Antriebstechnik AG","München","eng","ft","2026-09-28","Design and test drive components for industrial machines. Degree in mechanical engineering required.","Konstruktion und Test von Antriebskomponenten für Industriemaschinen. Abgeschlossenes Studium im Maschinenbau erforderlich."],
+[4,"Marketing Manager Online (m/w/d)","Rheinblick Media","Köln","sales","ft","2026-09-27","Plan and run paid and organic campaigns for B2B clients. Analytical mindset and German and English required.","Planung und Steuerung bezahlter und organischer Kampagnen für B2B-Kunden. Analytisches Denken sowie Deutsch und Englisch erforderlich."],
+[5,"Lagerlogistiker (m/w/d)","Mainfracht Logistik","Frankfurt","log","ft","2026-09-26","Receive, pick and ship goods in a modern warehouse. Forklift licence is an advantage; training provided.","Wareneingang, Kommissionierung und Versand in einem modernen Lager. Staplerschein von Vorteil, Einarbeitung erfolgt."],
+[6,"Werkstudent Datenanalyse (m/w/d)","Leipziger Energie","Leipzig","it","pt","2026-09-25","Support our analytics team with reports and dashboards, 15 to 20 hours per week alongside your studies.","Unterstützung des Analytics-Teams bei Berichten und Dashboards, 15 bis 20 Stunden pro Woche neben dem Studium."],
+[7,"Praktikum Vertrieb (m/w/d)","Elbe Handelskontor","Hamburg","sales","int","2026-09-24","Six-month internship in B2B sales with real client contact and a named mentor.","Sechsmonatiges Praktikum im B2B-Vertrieb mit echtem Kundenkontakt und festem Mentor."],
+[8,"Medizinische Fachangestellte (m/w/d)","Praxis am Park","München","health","pt","2026-09-23","Welcome patients, schedule appointments and assist in a family practice. Mornings only.","Patientenempfang, Terminplanung und Assistenz in einer Hausarztpraxis. Nur vormittags."],
+[9,"Freelance DevOps Engineer (m/w/d)","Brandenburg Cloud","Berlin","it","free","2026-09-22","Six-month contract to improve CI/CD pipelines and monitoring. Remote within Germany.","Sechsmonatiger Auftrag zur Verbesserung von CI/CD-Pipelines und Monitoring. Remote innerhalb Deutschlands."],
+[10,"Elektroingenieur Automatisierung (m/w/d)","Rhein-Main Automation","Frankfurt","eng","ft","2026-09-21","Plan and commission control systems for production lines at customer sites across Germany.","Planung und Inbetriebnahme von Steuerungssystemen für Produktionslinien bei Kunden in ganz Deutschland."]
+].map(function(a){return{id:a[0],t:a[1],co:a[2],city:a[3],f:a[4],ty:a[5],d:a[6],en:a[7],de:a[8]}});
+var CITIES=["Berlin","Frankfurt","Hamburg","Köln","Leipzig","München"];
+var L=(navigator.language||"").slice(0,2)==="de"?"de":"en";try{L=localStorage.getItem("l")||L}catch(e){}
+var F={q:"",city:"",f:"",ty:""};
+var $=function(s){return document.querySelector(s)};
+function t(k){return T[L][k]}
+function li(o){return L==="de"?o[1]:o[0]}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function fmt(d){return new Date(d).toLocaleDateString(L==="de"?"de-DE":"en-GB",{day:"numeric",month:"short",year:"numeric"})}
+function card(j){return '<a class="job" href="#/job/'+j.id+'"><div><h3>'+esc(j.t)+'</h3><small>'+esc(j.co)+' · '+esc(j.city)+'</small><br><span class="tag">'+li(FIELDS[j.f])+'</span><span class="tag">'+li(TYPES[j.ty])+'</span></div><small>'+fmt(j.d)+'</small></a>'}
+function alertBox(){return '<div class="alert"><input id="am" type="email" placeholder="'+t("alertP")+'" aria-label="'+t("alertP")+'"><button class="btn" id="ab">'+t("alertB")+'</button></div><p id="ao" class="note" hidden>'+t("alertOk")+'</p>'}
+function wire(){var b=$("#ab");if(b)b.onclick=function(){$("#ao").hidden=false};
+var s=$("#cs");if(s)s.onclick=function(){$("#co").hidden=false}}
+function opts(arr,val,labelFn){return '<option value="">'+t("any")+'</option>'+arr.map(function(k){return '<option value="'+k+'"'+(val===k?" selected":"")+'>'+labelFn(k)+'</option>'}).join("")}
+function jobsPage(){
+var r=J.filter(function(j){return(!F.city||j.city===F.city)&&(!F.f||j.f===F.f)&&(!F.ty||j.ty===F.ty)&&(!F.q||(j.t+" "+j.co).toLowerCase().indexOf(F.q.toLowerCase())>-1)});
+return '<section class="w"><h2>'+t("jobs")+'</h2><div class="filters"><input id="fq" type="search" placeholder="'+t("q")+'" value="'+esc(F.q)+'" aria-label="'+t("q")+'">'+
+'<select id="fc" aria-label="'+t("city")+'">'+opts(CITIES,F.city,function(k){return k})+'</select>'+
+'<select id="ff" aria-label="'+t("field")+'">'+opts(Object.keys(FIELDS),F.f,function(k){return li(FIELDS[k])})+'</select>'+
+'<select id="ft" aria-label="'+t("type")+'">'+opts(Object.keys(TYPES),F.ty,function(k){return li(TYPES[k])})+'</select></div>'+
+'<p aria-live="polite"><b>'+r.length+'</b> '+t("res")+'</p>'+(r.length?r.map(card).join(""):'<p class="note">'+t("none")+'</p>')+'</section>'}
+function view(){
+var h=location.hash.replace(/^#\/?/,"").split("/"),p=h[0]||"home",out="";
+document.documentElement.lang=L;
+$("#lang").textContent=L==="en"?"DE":"EN";
+$("#nav").innerHTML=[["home","#/"],["jobs","#/jobs"],["about","#/about"],["contact","#/contact"]].map(function(n){return '<a href="'+n[1]+'"'+(p===(n[0]==="home"?"home":n[0])||(p==="job"&&n[0]==="jobs")?' class="on"':'')+'>'+t(n[0])+'</a>'}).join("");
+$("#foot").innerHTML='<p><a href="#/impressum">'+t("imp")+'</a><a href="#/datenschutz">'+t("dp")+'</a></p><p>'+t("ft")+'</p>';
+if(p==="home"){out='<div class="hero"><div class="w"><h1>'+t("h1")+'</h1><p>'+t("intro")+'</p><div class="search" role="search"><input id="hq" type="search" placeholder="'+t("q")+'" aria-label="'+t("q")+'"><button class="btn" id="hg">'+t("go")+'</button></div></div></div>'+
+'<section class="w"><h2>'+t("latest")+'</h2>'+J.slice(0,5).map(card).join("")+'<p><a class="btn o" href="#/jobs">'+t("all")+'</a></p></section>'+
+'<div class="band"><section class="w"><h2>'+t("alertT")+'</h2>'+alertBox()+'</section></div>'}
+else if(p==="jobs")out=jobsPage();
+else if(p==="job"){var j=J.filter(function(x){return x.id==h[1]})[0];
+if(!j)out='<section class="w"><p class="note">'+t("none")+'</p><a href="#/jobs">'+t("back")+'</a></section>';
+else{var u=encodeURIComponent(location.href.split("#")[0]+"#/job/"+j.id),tx=encodeURIComponent(j.t+" – "+j.co+", "+j.city);
+out='<section class="w" style="max-width:760px"><a href="#/jobs">← '+t("back")+'</a><h1 style="margin:12px 0 4px;font-size:32px;line-height:1.2">'+esc(j.t)+'</h1><p style="margin:0;color:var(--mut)">'+esc(j.co)+' · '+esc(j.city)+' · '+t("posted")+' '+fmt(j.d)+'</p><p><span class="tag">'+li(FIELDS[j.f])+'</span><span class="tag">'+li(TYPES[j.ty])+'</span></p>'+
+'<h2 style="margin-top:24px">'+t("desc")+'</h2><p>'+esc(L==="de"?j.de:j.en)+'</p><p><a class="btn" href="https://example.com/apply/'+j.id+'" target="_blank" rel="noopener nofollow">'+t("apply")+'</a></p>'+
+'<p class="share">'+t("share")+': <a href="https://wa.me/?text='+tx+'%20'+u+'" target="_blank" rel="noopener">WhatsApp</a><a href="https://t.me/share/url?url='+u+'&text='+tx+'" target="_blank" rel="noopener">Telegram</a></p>'+
+'<p class="note">'+t("sample")+'</p></section>'}}
+else if(p==="about")out='<section class="w" style="max-width:760px"><h2>'+t("aboutH")+'</h2><p>'+t("aboutP")+'</p><h2 style="margin-top:28px">'+t("missionH")+'</h2><p>'+t("missionP")+'</p></section>';
+else if(p==="contact")out='<section class="w" style="max-width:560px"><h2>'+t("cH")+'</h2><p>'+t("cP")+'</p><label for="cn">'+t("cName")+'</label><input id="cn" autocomplete="name"><label for="cm">'+t("cMail")+'</label><input id="cm" type="email" autocomplete="email"><label for="cg">'+t("cMsg")+'</label><textarea id="cg" rows="5"></textarea><p><button class="btn" id="cs">'+t("cSend")+'</button></p><p id="co" class="note" hidden>'+t("cOk")+'</p></section>';
+else if(p==="impressum")out='<section class="w" style="max-width:760px"><h2>'+t("impH")+'</h2><p class="pre">'+esc(t("impB"))+'</p><p class="note">'+t("sample")+'</p></section>';
+else if(p==="datenschutz")out='<section class="w" style="max-width:760px"><h2>'+t("dpH")+'</h2><p class="pre">'+esc(t("dpB"))+'</p><p class="note">'+t("sample")+'</p></section>';
+$("#app").innerHTML=out;
+var hg=$("#hg");if(hg)hg.onclick=function(){F={q:$("#hq").value,city:"",f:"",ty:""};location.hash="#/jobs"};
+var hq=$("#hq");if(hq)hq.onkeydown=function(e){if(e.key==="Enter")hg.click()};
+[["#fq","q","input"],["#fc","city","change"],["#ff","f","change"],["#ft","ty","change"]].forEach(function(a){var el=$(a[0]);if(el)el.addEventListener(a[2],function(){F[a[1]]=el.value;var pos=el.selectionStart;view();var n=$(a[0]);n.focus();if(a[0]==="#fq")n.setSelectionRange(pos,pos)})});
+wire();
+}
+$("#lang").onclick=function(){L=L==="en"?"de":"en";try{localStorage.setItem("l",L)}catch(e){}view()};
+window.addEventListener("hashchange",function(){view();window.scrollTo(0,0)});
+view();
+</script>
+</body>
+</html>
